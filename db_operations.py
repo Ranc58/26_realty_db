@@ -19,7 +19,6 @@ def get_flat_content():
 
 def add_flat_content_to_db(json_content):
     for flat in json_content:
-        if Flat.ob
         session = db.session
         flat_content = Flat(settlement=flat['settlement'],
                             under_construction=flat['under_construction'],
