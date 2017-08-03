@@ -14,7 +14,8 @@ class Flat(db.Model):
     construction_year = db.Column(db.Integer)
     rooms_number = db.Column(db.Integer)
     premise_area = db.Column(db.Float)
+    active = db.Column(db.Boolean)
 
     def __repr__(self):
-        return '%r' % (self.id)
+        return '%r' % (self.active)
 
