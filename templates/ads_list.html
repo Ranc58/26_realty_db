@@ -120,7 +120,7 @@
             </div>
             <div class="col-sm-8">
               <div class="panel panel-default">
-                {% for ad in ads %}
+                {% for ad in ads.items %}
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-sm-12">
@@ -151,7 +151,9 @@
                   <hr>
                 {% endfor %}
                 <div class="panel-body">
-                    <!--ADD PAGINATION HERE-->
+                    {% if ads.has_prev %}<a href="{{ url_for('ads_list', page=ads.prev_num) }}">&lt;&lt; Предыдущая страница</a>{% else %}&lt;&lt; Предыдущая страница{% endif %} |
+                    {% if ads.has_next %}<a href="{{ url_for('ads_list', page=ads.next_num) }}">Следующая страница &gt;&gt;</a>{% else %}Следующая страница &gt;&gt;{% endif %}
+                  </div>
                 </div>
               </div>
             </div>

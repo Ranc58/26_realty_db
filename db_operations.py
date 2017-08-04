@@ -2,22 +2,16 @@ import os
 
 import argparse
 import requests
-from db_init import db
+from flask_init import db
 from models import Flat
 
-DB_NAME = 'flats_content.db'
-
-
+DB_NAME = 'flats.db'
 JSON_URL = 'https://devman.org/assets/ads.json'
 
 
 def create_db():
     if not os.path.exists(DB_NAME):
         db.create_all()
-
-
-def get_content_from_file():  # TODO Add load content from file
-    pass
 
 
 def get_flat_content_from_url():
@@ -45,36 +39,24 @@ def add_flat_content_to_db(json_content):
         session.commit()
 
 
-def create_parser_for_user_arguments(): # TODO Total refactor of argparse
+def create_parser_for_user_arguments():
     parser = argparse.ArgumentParser(description='Work with database.')
-    subparsers = parser.add_subparsers(title='subcommands',
-                                       description='valid subcommands')
-    url_parser = subparsers.add_parser('url_update')
-    file_parser = subparsers.add_parser('file_update')
-    create_db_parser = subparsers.add_parser('create_db')
-    url_parser.add_argument('-u',
-                            help='Load json from URL',
-                            action='store_const', const=True,
-                            default='https://devman.org/assets/ads.json')
-    file_parser.add_argument('-f',
-                             help='path to file', type=argparse.FileType())
-    create_db_parser.add_argument('-c',
-                                  action='store_const', const=True,
-                                  help='Create new database')
+    parser.add_argument('-u', '--update',
+                        action='store_const', const=True,
+                        help='Update database')
+    parser.add_argument('-c', '--create',
+                        action='store_const', const=True,
+                        help='Create new database')
     return parser.parse_args()
 
 
-if __name__ == '__main__':  # TODO add argparse for load content choice
+if __name__ == '__main__':
     user_argument = create_parser_for_user_arguments()
-    print(user_argument)
-    if user_argument == 'url_update':
+    if user_argument.create:
+        create_db()
+    if user_argument.update:
+        all_flats = Flat.query.all()
+        for flat in all_flats:
+            flat.active = False
         json_content = get_flat_content_from_url()
         add_flat_content_to_db(json_content)
-    #elif user_argument == 'file_update':
-    #
-    #else:
-    #    create_db()
-    #all_flats = Flat.query.all()
-    #for flat in all_flats:
-    #    flat.active = False
-
