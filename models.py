@@ -2,7 +2,7 @@ from flask_init import db, app
 
 
 class Flat(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    ad_id = db.Column(db.Integer, primary_key=True)
     settlement = db.Column(db.String(64), index=True)
     under_construction = db.Column(db.Boolean)
     description = db.Column(db.Text)

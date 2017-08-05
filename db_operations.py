@@ -33,7 +33,7 @@ def add_flat_content_to_db(json_content):
                             construction_year=flat['construction_year'],
                             rooms_number=flat['rooms_number'],
                             premise_area=flat['premise_area'],
-                            id=flat['id'],
+                            ad_id=flat['id'],
                             active=True)
         session.add(flat_content)
         session.commit()
