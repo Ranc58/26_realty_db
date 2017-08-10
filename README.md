@@ -18,7 +18,7 @@ Command for update DB: `$ python3 db_operations.py -u`\
 After DB is created and updated, run flask server: `$ python3 server.py`\
 And go to site: `http://127.0.0.1:5000/` 
 
-**Some useful info**\
+**Some useful info**
 1) Each time you upload new data to DB, old records get status `active: False` and no longer displayed on the site, but saved in DB.
 2) Button `Только новостройки` on site displayed only new flats(not older than 2 years).
 # Project Goals
