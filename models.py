@@ -3,7 +3,7 @@ from flask_init import db, app
 
 class Flat(db.Model):
     ad_id = db.Column(db.Integer, primary_key=True)
-    settlement = db.Column(db.String(64), index=True)
+    settlement = db.Column(db.String(64))
     under_construction = db.Column(db.Boolean)
     description = db.Column(db.Text)
     price = db.Column(db.Integer)
