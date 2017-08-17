@@ -1,4 +1,4 @@
-from flask_init import db, app
+from flask_init import db
 
 
 class Flat(db.Model):
