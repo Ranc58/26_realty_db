@@ -13,8 +13,8 @@ Getting data about flats in JSON format, put it in SQLite DB, and then displayed
 # How to use
 Primarily, you need to create DB and make first JSON load operation.\
 Script for work with DB: `db_operations.py`\
-Command for create DB: `$ python3 db_operations.py -c`\
-Command for update DB: `$ python3 db_operations.py -u`\
+Run to create (if it is not created already) and update database with argument `-u <pathway to json>`\
+For example: `$ python3 db_operations.py -u ads.json`\
 After DB is created and updated, run flask server: `$ python3 server.py`\
 And go to site: `http://127.0.0.1:5000/` 
 

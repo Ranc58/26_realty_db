@@ -1,7 +1,7 @@
 import os
-
 import argparse
-import requests
+import json
+from sqlalchemy.exc import IntegrityError
 from flask_init import db
 from models import Flat
 
@@ -14,9 +14,8 @@ def create_db():
         db.create_all()
 
 
-def get_flat_content_from_url():
-    json_content = requests.get(JSON_URL).json()
-    return json_content
+def get_flat_content_from_json(json_file):
+    return json.load(json_file)
 
 
 def add_flat_content_to_db(json_content):
@@ -41,22 +40,22 @@ def add_flat_content_to_db(json_content):
 
 def create_parser_for_user_arguments():
     parser = argparse.ArgumentParser(description='Work with database.')
-    parser.add_argument('-u', '--update',
-                        action='store_const', const=True,
+    parser.add_argument('-u', '--update', required=True,
+                        type=argparse.FileType(mode='r'),
                         help='Update database')
-    parser.add_argument('-c', '--create',
-                        action='store_const', const=True,
-                        help='Create new database')
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     user_argument = create_parser_for_user_arguments()
-    if user_argument.create:
-        create_db()
-    if user_argument.update:
-        all_flats = Flat.query.all()
-        for flat in all_flats:
-            flat.active = False
-        json_content = get_flat_content_from_url()
+    create_db()
+    try:
+        json_content = get_flat_content_from_json(user_argument.update)
+        active_ads = Flat.query.filter_by(active=True)
+        active_ads.update(dict(active=False))
         add_flat_content_to_db(json_content)
+    except json.decoder.JSONDecodeError as e:
+        print('Please check that JSON file is correct!\n', e)
+    except IntegrityError as e:
+        print(e, '\nUpdate operation canceled.')
+        db.session.rollback()
