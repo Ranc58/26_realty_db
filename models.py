@@ -1,4 +1,6 @@
-from flask_init import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 class Flat(db.Model):

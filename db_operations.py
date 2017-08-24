@@ -2,8 +2,8 @@ import os
 import argparse
 import json
 from sqlalchemy.exc import IntegrityError
-from flask_init import db
 from models import Flat
+from server import db
 
 DB_NAME = 'flats.db'
 JSON_URL = 'https://devman.org/assets/ads.json'

@@ -1,10 +1,12 @@
-import os
-import json
 import datetime
-from flask import Flask, render_template, session, request
-from flask_sqlalchemy import SQLAlchemy
-from models import Flat
-from flask_init import app, db
+from flask import Flask, render_template, request
+from models import Flat, db
+from flask import Flask
+
+app = Flask(__name__)
+app.config.from_object('config')
+db.app = app
+db.init_app(app)
 
 
 @app.route('/', defaults={'page': 1})
