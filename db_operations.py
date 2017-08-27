@@ -6,8 +6,6 @@ from models import Flat
 from server import db
 
 DB_NAME = 'flats.db'
-JSON_URL = 'https://devman.org/assets/ads.json'
-
 
 def create_db():
     if not os.path.exists(DB_NAME):
