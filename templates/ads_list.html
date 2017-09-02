@@ -31,7 +31,7 @@
         <div class="col-md-9">
           <div class="row">
             <div class="col-sm-4">
-              <form role="form" class="panel panel-default" method="GET">
+              <form role="form" class="panel panel-default" method="GET" action="/">
                 <div class="panel-body">
                   <p>город / районный центр</p>
                   <div class="form-group">
@@ -151,8 +151,32 @@
                   <hr>
                 {% endfor %}
                 <div class="panel-body">
-                    {% if ads.has_prev %}<a href="{{ url_for('ads_list', page=ads.prev_num) }}">&lt;&lt; Предыдущая страница</a>{% else %}&lt;&lt; Предыдущая страница{% endif %} |
-                    {% if ads.has_next %}<a href="{{ url_for('ads_list', page=ads.next_num) }}">Следующая страница &gt;&gt;</a>{% else %}Следующая страница &gt;&gt;{% endif %}
+                  <div class="clearfix text-center">
+                    <ul class="pagination">
+                    {% if ads.has_prev %}
+                      <li><a href="{{ url_for(request.endpoint, page=ads.prev_num, oblast_district=oblast_district, new_building=new_building, min_price=min_price, max_price=max_price) }}"><span>«</span></a></li>
+                    {% else %}
+                      <li class="disabled"><span>«</span></li>
+                    {% endif %}
+
+                    {% for page in ads.iter_pages() %}
+                      {% if page %}
+                        {% if page != ads.page %}
+                          <li><a href="{{ url_for(request.endpoint, page=page, oblast_district=oblast_district, new_building=new_building, min_price=min_price, max_price=max_price) }}">{{ page }}</a></li>
+                        {% else %}
+                          <li class="active"><span>{{ page }}</span></li>
+                        {% endif %}
+                      {% else %}
+                        <li><span class="ellipsis">...</span></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if ads.has_next %}
+                      <li><a href="{{ url_for(request.endpoint, page=ads.next_num, oblast_district=oblast_district, new_building=new_building, min_price=min_price, max_price=max_price) }}"><span>»</span></a></li>
+                    {% else %}
+                      <li class="disabled"><span>»</span></li>
+                    {% endif %}
+                    </ul>
+                  </div>
                   </div>
                 </div>
               </div>

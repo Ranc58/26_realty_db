@@ -2,6 +2,7 @@ import os
 import argparse
 import json
 from sqlalchemy.exc import IntegrityError
+
 from models import Flat
 from server import db
 
@@ -34,6 +35,7 @@ def add_flat_content_to_db(json_content):
                             active=True)
         session.add(flat_content)
         session.commit()
+        session.close()
 
 
 def create_parser_for_user_arguments():
@@ -53,7 +55,12 @@ if __name__ == '__main__':
         active_ads.update(dict(active=False))
         add_flat_content_to_db(json_content)
     except json.decoder.JSONDecodeError as e:
-        print('Please check that JSON file is correct!\n', e)
-    except IntegrityError as e:
-        print(e, '\nUpdate operation canceled.')
+        print('Please check that JSON file have correct structure!\n', e)
+    except IntegrityError:
+        print('Error! Please check ads for unique!\nUpdate canceled.')
         db.session.rollback()
+    except KeyError as e:
+        print('Error! This value is missing:', e,
+              '\nCheck JSON file for data integrity \nUpdate canceled.')
+        db.session.rollback()
+    db.session.close()
