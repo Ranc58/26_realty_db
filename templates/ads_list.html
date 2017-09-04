@@ -94,7 +94,7 @@
                   <div class="form-group ">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="new_building" value="True">
+                        <input type="checkbox" name="new_building" value="True" {% if new_building %} checked {% endif %}>
                         только новостройки
                       </label>
                     </div>
@@ -103,14 +103,14 @@
                   <div class="form-group ">
                     <div class="input-group">
                       <span class="input-group-addon">от</span>
-                      <input autocomplete="off" type="text" value="" name="min_price" class="form-control js-price-format" placeholder="любая">
+                      <input autocomplete="off" type="text" name="min_price" class="form-control js-price-format" value="{% if min_price %}{{ min_price }}{% endif %}" placeholder="любая">
                       <span class="input-group-addon">р.</span>
                     </div>
                   </div>
                   <div class="form-group ">
                     <div class="input-group">
                       <span class="input-group-addon">до</span>
-                      <input autocomplete="off" type="text" value="" name="max_price" class="form-control js-price-format" placeholder="любая">
+                      <input autocomplete="off" type="text" name="max_price" class="form-control js-price-format" value="{% if max_price %}{{ max_price }}{% endif %}" placeholder="любая">
                       <span class="input-group-addon">р.</span>
                     </div>
                   </div>
@@ -185,8 +185,12 @@
         </div>
       </div>
     </div><!-- /.container -->
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("select[name='oblast_district']").find("option[value='{{ oblast_district }}']").attr("selected",true);
+      });
+    </script>
   </body>
 </html>
